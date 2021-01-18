@@ -1,7 +1,7 @@
 import { apiClient, apiRequest } from "./client";
 import {
-  GetInsightDataRequest,
-  GetInsightDataResponse,
+  GetInsightMetricsDataRequest,
+  GetInsightDataPointsResponse,
 } from "pipe/pkg/app/web/api_client/service_pb";
 
 export const getInsightData = ({
@@ -10,10 +10,10 @@ export const getInsightData = ({
   metricsKind,
   rangeFrom,
   step,
-}: GetInsightDataRequest.AsObject): Promise<
-  GetInsightDataResponse.AsObject
+}: GetInsightMetricsDataRequest.AsObject): Promise<
+  GetInsightDataPointsResponse.AsObject
 > => {
-  const req = new GetInsightDataRequest();
+  const req = new GetInsightMetricsDataRequest();
   req.setApplicationId(applicationId);
   req.setDataPointCount(dataPointCount);
   req.setMetricsKind(metricsKind);
@@ -21,5 +21,5 @@ export const getInsightData = ({
   req.setStep(step);
   console.log(step);
 
-  return apiRequest(req, apiClient.getInsightData);
+  return apiRequest(req, apiClient.getInsightMetricsData);
 };

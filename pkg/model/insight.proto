@@ -37,3 +37,12 @@ enum InsightStep {
   MONTHLY = 2;
   YEARLY = 3;
 }
+
+message InsightPieChartDataRate {
+  string content = 1 [(validate.rules).string.min_len = 1];
+  float value = 2 [(validate.rules).float.gt = 0];
+}
+
+enum PieChartKind {
+  APPLICATIONS = 0;
+}

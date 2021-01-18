@@ -91,8 +91,10 @@ service WebService {
     rpc ListAPIKeys(ListAPIKeysRequest) returns (ListAPIKeysResponse) {}
 
     // Insights
-    rpc GetInsightData(GetInsightDataRequest) returns (GetInsightDataResponse) {}
+    rpc GetInsightMetricsData(GetInsightMetricsDataRequest) returns (GetInsightDataPointsResponse) {}
+    rpc GetInsightPieChartData(GetInsightPieChartDataRequest) returns (GetInsightPieChartDataResponse) {}
 }
+
 
 message AddEnvironmentResponse {
 }
@@ -442,7 +444,7 @@ message ListAPIKeysResponse {
     repeated model.APIKey keys = 1;
 }
 
-message GetInsightDataRequest {
+message GetInsightMetricsDataRequest {
     pipe.model.InsightMetricsKind metrics_kind = 1 [(validate.rules).enum.defined_only = true];
     pipe.model.InsightStep step = 2 [(validate.rules).enum.defined_only = true];
     int64 range_from = 3 [(validate.rules).int64.gt = 0];
@@ -450,7 +452,17 @@ message GetInsightDataRequest {
     string application_id = 5;
 }
 
-message GetInsightDataResponse {
+message GetInsightDataPointsResponse {
     int64 updated_at = 1;
     repeated pipe.model.InsightDataPoint data_points = 2;
+}
+
+message GetInsightPieChartDataRequest {
+    pipe.model.PieChartKind kind = 1 [(validate.rules).enum.defined_only = true];
+    string project_id = 2 [(validate.rules).string.min_len = 1];
+}
+
+message GetInsightPieChartDataResponse {
+    int64 updated_at = 1;
+    repeated pipe.model.InsightPieChartDataRate rate = 2;
 }

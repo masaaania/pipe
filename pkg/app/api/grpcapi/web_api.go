@@ -1344,8 +1344,8 @@ func (a *WebAPI) ListAPIKeys(ctx context.Context, req *webservice.ListAPIKeysReq
 	}, nil
 }
 
-// GetInsightData returns the accumulated insight data.
-func (a *WebAPI) GetInsightData(ctx context.Context, req *webservice.GetInsightDataRequest) (*webservice.GetInsightDataResponse, error) {
+// GetInsightMetricsData returns the accumulated insight data.
+func (a *WebAPI) GetInsightMetricsData(ctx context.Context, req *webservice.GetInsightMetricsDataRequest) (*webservice.GetInsightDataPointsResponse, error) {
 	claims, err := rpcauth.ExtractClaims(ctx)
 	if err != nil {
 		a.logger.Error("failed to authenticate the current user", zap.Error(err))
@@ -1382,8 +1382,13 @@ func (a *WebAPI) GetInsightData(ctx context.Context, req *webservice.GetInsightD
 		}
 	}
 
-	return &webservice.GetInsightDataResponse{
+	return &webservice.GetInsightDataPointsResponse{
 		UpdatedAt:  updateAt,
 		DataPoints: idp,
 	}, nil
+}
+
+// GetInsightPieChartData returns insight data for pie chart
+func (a *WebAPI) GetInsightPieChartData(context.Context, *webservice.GetInsightPieChartDataRequest) (*webservice.GetInsightPieChartDataResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "")
 }
